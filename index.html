@@ -1,0 +1,265 @@
+<!-- Header -->
+<header class="bg-orange-500 shadow-lg text-white p-4 sticky top-0 z-50 rounded-b-xl">
+    <div class="container mx-auto flex justify-between items-center flex-wrap">
+        <h1 class="text-3xl font-bold rounded-lg p-2 bg-orange-600 shadow-md">
+            <a href="#" class="block hover:text-orange-200 transition-colors">«Грядка»</a>
+        </h1>
+        <nav class="mt-4 sm:mt-0 flex flex-wrap justify-center sm:justify-end gap-2">
+            <button onclick="showPage('home')" class="nav-btn bg-white text-orange-700 py-2 px-4 rounded-full font-semibold hover:bg-orange-100 transition-colors shadow-lg">Головна</button>
+            <button onclick="showPage('promotions')" class="nav-btn bg-white text-orange-700 py-2 px-4 rounded-full font-semibold hover:bg-orange-100 transition-colors shadow-lg">Акції та ціни</button>
+            <button onclick="showPage('health')" class="nav-btn bg-white text-orange-700 py-2 px-4 rounded-full font-semibold hover:bg-orange-100 transition-colors shadow-lg">Здорове харчування</button>
+            <button onclick="showPage('locations')" class="nav-btn bg-white text-orange-700 py-2 px-4 rounded-full font-semibold hover:bg-orange-100 transition-colors shadow-lg">Наші магазини</button>
+        </nav>
+    </div>
+</header>
+
+<!-- Main Content Container -->
+<main class="container mx-auto p-4 md:p-8">
+
+    <!-- Home Page -->
+    <section id="home-page" class="main-content active-content bg-white rounded-2xl shadow-xl p-6 md:p-10 my-8 animate-fade-in-up">
+        <div class="text-center mb-10">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-orange-700 mb-4 animate-pulse-slow">Ласкаво просимо до «Грядки»!</h2>
+            <p class="text-xl text-gray-700 mb-6">Ваш улюблений магазин свіжих продуктів біля дому.</p>
+            
+            <!-- Hero Image -->
+            <div class="mb-10 rounded-2xl overflow-hidden shadow-2xl">
+                <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="Магазин Грядка" class="w-full h-64 md:h-96 object-cover">
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+                <div class="bg-orange-50 p-6 rounded-xl shadow-md transform hover:scale-105 transition-transform">
+                    <h3 class="text-2xl font-bold text-orange-700 mb-2">Свіжі продукти</h3>
+                    <p class="text-gray-600">Щодня ми поповнюємо наші полиці свіжими овочами, фруктами та зеленню прямо з ферми.</p>
+                </div>
+                <div class="bg-orange-50 p-6 rounded-xl shadow-md transform hover:scale-105 transition-transform">
+                    <h3 class="text-2xl font-bold text-orange-700 mb-2">Низькі ціни</h3>
+                    <p class="text-gray-600">Ми пропонуємо доступні ціни, щоб корисні продукти були доступні кожному.</p>
+                </div>
+                <div class="bg-orange-50 p-6 rounded-xl shadow-md transform hover:scale-105 transition-transform">
+                    <h3 class="text-2xl font-bold text-orange-700 mb-2">Дружній сервіс</h3>
+                    <p class="text-gray-600">Наші співробітники завжди готові допомогти вам з вибором і відповісти на всі ваші запитання.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Promotions Page -->
+    <section id="promotions-page" class="main-content bg-white rounded-2xl shadow-xl p-6 md:p-10 my-8">
+        <h2 class="text-4xl md:text-5xl font-extrabold text-orange-700 text-center mb-8">Акції та ціни</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <!-- Product Cards -->
+            <div class="product-card bg-orange-50 rounded-xl shadow-md overflow-hidden transform hover:scale-105 transition-transform">
+                <img src="https://images.unsplash.com/photo-1596707328131-7b0b6c688d67?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Свіжі огірки" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="text-xl font-bold text-orange-700">Огірки</h3>
+                    <p class="text-gray-600 text-sm mt-1">Свіжі огірки, врожай 2024</p>
+                    <div class="flex justify-between items-baseline mt-3">
+                        <span class="text-orange-800 font-bold text-2xl">100 грн / кг</span>
+                        <span class="text-red-500 line-through">120 грн</span>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">Акція діє до 30 вересня</p>
+                </div>
+            </div>
+
+            <div class="product-card bg-orange-50 rounded-xl shadow-md overflow-hidden transform hover:scale-105 transition-transform">
+                <img src="https://images.unsplash.com/photo-1587840171675-9b16ac878b27?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Соковита полуниця" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="text-xl font-bold text-orange-700">Полуниця</h3>
+                    <p class="text-gray-600 text-sm mt-1">Полуниця з місцевих садів</p>
+                    <div class="flex justify-between items-baseline mt-3">
+                        <span class="text-orange-800 font-bold text-2xl">250 грн / 500 г</span>
+                        <span class="text-red-500 line-through">300 грн</span>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">Акція діє до 30 вересня</p>
+                </div>
+            </div>
+            
+            <div class="product-card bg-orange-50 rounded-xl shadow-md overflow-hidden transform hover:scale-105 transition-transform">
+                <img src="https://images.unsplash.com/photo-1579624564887-5c5454b5744b?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Свіжа картопля" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="text-xl font-bold text-orange-700">Картопля</h3>
+                    <p class="text-gray-600 text-sm mt-1">Молода картопля</p>
+                    <div class="flex justify-between items-baseline mt-3">
+                        <span class="text-orange-800 font-bold text-2xl">35 грн / кг</span>
+                        <span class="text-red-500 line-through">50 грн</span>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">Акція діє до 30 вересня</p>
+                </div>
+            </div>
+
+            <div class="product-card bg-orange-50 rounded-xl shadow-md overflow-hidden transform hover:scale-105 transition-transform">
+                <img src="https://images.unsplash.com/photo-1550982540-b6f7055725f8?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Хрусткий салат" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="text-xl font-bold text-orange-700">Салат</h3>
+                    <p class="text-gray-600 text-sm mt-1">Салат "Айсберг" у горщику</p>
+                    <div class="flex justify-between items-baseline mt-3">
+                        <span class="text-orange-800 font-bold text-2xl">65 грн / шт</span>
+                        <span class="text-red-500 line-through">80 грн</span>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">Акція діє до 30 вересня</p>
+                </div>
+            </div>
+
+            <div class="product-card bg-orange-50 rounded-xl shadow-md overflow-hidden transform hover:scale-105 transition-transform">
+                <img src="https://images.unsplash.com/photo-1526318472351-c75fcf070305?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Свіжі помідори" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="text-xl font-bold text-orange-700">Помідори</h3>
+                    <p class="text-gray-600 text-sm mt-1">Помідори чері різних кольорів</p>
+                    <div class="flex justify-between items-baseline mt-3">
+                        <span class="text-orange-800 font-bold text-2xl">180 грн / кг</span>
+                        <span class="text-red-500 line-through">220 грн</span>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">Акція діє до 30 вересня</p>
+                </div>
+            </div>
+
+            <div class="product-card bg-orange-50 rounded-xl shadow-md overflow-hidden transform hover:scale-105 transition-transform">
+                <img src="https://images.unsplash.com/photo-1592924356292-439c41c04367?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Свіжі яблука" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="text-xl font-bold text-orange-700">Яблука</h3>
+                    <p class="text-gray-600 text-sm mt-1">Яблука сезонних сортів</p>
+                    <div class="flex justify-between items-baseline mt-3">
+                        <span class="text-orange-800 font-bold text-2xl">45 грн / кг</span>
+                        <span class="text-red-500 line-through">60 грн</span>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">Акція діє до 30 вересня</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Health Benefits Page -->
+    <section id="health-page" class="main-content bg-white rounded-2xl shadow-xl p-6 md:p-10 my-8">
+        <h2 class="text-4xl md:text-5xl font-extrabold text-orange-700 text-center mb-8">Користь здорового харчування</h2>
+        
+        <div class="mb-10 rounded-2xl overflow-hidden shadow-2xl">
+            <img src="https://images.unsplash.com/photo-1490818387583-1baba5e638af?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="Здорова їжа" class="w-full h-64 object-cover">
+        </div>
+        
+        <div class="space-y-6 text-gray-700">
+            <p class="text-lg">Правильне харчування — це основа для підтримки здоров'я та гарного самопочуття. У наших магазинах «Грядка» ви завжди знайдете свіжі та корисні продукти, які допоможуть вам піклуватися про свій організм.</p>
+            
+            <h3 class="text-2xl font-bold text-orange-700 mt-8 mb-4">Чому це важливо?</h3>
+            <ul class="list-disc list-inside space-y-2 text-lg">
+                <li>Свіжі овочі та фрукти — джерело вітамінів і мінералів, необхідних для імунної системи.</li>
+                <li>Клітковина, що міститься в овочах, покращує травлення та сприяє детоксикації організму.</li>
+                <li>Корисні жири, білки та складні вуглеводи дають енергію та підтримують м'язову масу.</li>
+                <li>Здорова дієта допомагає підтримувати нормальну вагу та знижує ризик хронічних захворювань.</li>
+            </ul>
+
+            <h3 class="text-2xl font-bold text-orange-700 mt-8 mb-4">Наші поради щодо здорового харчування</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-orange-50 p-6 rounded-xl shadow-md">
+                    <h4 class="text-xl font-bold text-orange-700 mb-2">Більше зелені</h4>
+                    <p>Додавайте свіжу зелень, таку як шпинат, кріп і петрушка, до кожного прийому їжі.</p>
+                </div>
+                <div class="bg-orange-50 p-6 rounded-xl shadow-md">
+                    <h4 class="text-xl font-bold text-orange-700 mb-2">Сезонні овочі</h4>
+                    <p>Обирайте сезонні овочі — вони найкорисніші та найсмачніші.</p>
+                </div>
+                <div class="bg-orange-50 p-6 rounded-xl shadow-md">
+                    <h4 class="text-xl font-bold text-orange-700 mb-2">Фрукти замість солодощів</h4>
+                    <p>Замініть шкідливі солодощі на натуральні фрукти та ягоди — це чудовий спосіб отримати енергію.</p>
+                </div>
+                <div class="bg-orange-50 p-6 rounded-xl shadow-md">
+                    <h4 class="text-xl font-bold text-orange-700 mb-2">Пийте воду</h4>
+                    <p>Не забувайте пити достатню кількість чистої води протягом дня.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Locations Page -->
+    <section id="locations-page" class="main-content bg-white rounded-2xl shadow-xl p-6 md:p-10 my-8">
+        <h2 class="text-4xl md:text-5xl font-extrabold text-orange-700 text-center mb-8">Наші магазини</h2>
+        
+        <div class="mb-10 rounded-2xl overflow-hidden shadow-2xl">
+            <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="Магазин Грядка" class="w-full h-64 object-cover">
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-orange-50 p-6 rounded-xl shadow-md">
+                <h3 class="text-2xl font-bold text-orange-700 mb-4">«Грядка» Центр</h3>
+                <p class="text-gray-700 mb-2">📍 вул. Центральна, 123</p>
+                <p class="text-gray-700 mb-2">🕒 8:00 - 22:00 (щодня)</p>
+                <p class="text-gray-700 mb-4">📞 (044) 123-45-67</p>
+                <div class="rounded-lg overflow-hidden h-48">
+                    <img src="https://images.unsplash.com/photo-1566842600097-060d6c8f6e3a?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Магазин Грядка Центр" class="w-full h-full object-cover">
+                </div>
+            </div>
+            
+            <div class="bg-orange-50 p-6 rounded-xl shadow-md">
+                <h3 class="text-2xl font-bold text-orange-700 mb-4">«Грядка» Парк</h3>
+                <p class="text-gray-700 mb-2">📍 вул. Паркова, 45</p>
+                <p class="text-gray-700 mb-2">🕒 7:00 - 23:00 (щодня)</p>
+                <p class="text-gray-700 mb-4">📞 (044) 123-45-68</p>
+                <div class="rounded-lg overflow-hidden h-48">
+                    <img src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Магазин Грядка Парк" class="w-full h-full object-cover">
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-8 bg-orange-100 p-6 rounded-xl">
+            <h3 class="text-2xl font-bold text-orange-700 mb-4">Додаткові послуги</h3>
+            <ul class="list-disc list-inside space-y-2 text-gray-700">
+                <li>Безкоштовна доставка при покупці від 500 грн</li>
+                <li>Програма лояльності з накопичувальними знижками</li>
+                <li>Консультації з питань здорового харчування</li>
+                <li>Сезонні набори овочів та фруктів зі знижкою</li>
+            </ul>
+        </div>
+    </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="bg-orange-700 text-white p-6 text-center rounded-t-xl mt-8">
+    <div class="container mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
+            <div>
+                <h3 class="text-xl font-bold mb-2">Контакти</h3>
+                <p>📞 (044) 123-45-67</p>
+                <p>✉️ info@griadka.ua</p>
+            </div>
+            <div>
+                <h3 class="text-xl font-bold mb-2">Графік роботи</h3>
+                <p>Понеділок - Неділя: 8:00 - 22:00</p>
+            </div>
+            <div>
+                <h3 class="text-xl font-bold mb-2">Соціальні мережі</h3>
+                <p>📱 Facebook | Instagram | Telegram</p>
+            </div>
+        </div>
+        <p class="border-t border-orange-600 pt-4">&copy; 2024 Мережа магазинів «Грядка». Всі права захищені.</p>
+    </div>
+</footer>
+
+<script>
+    function showPage(pageId) {
+        const pages = document.querySelectorAll('.main-content');
+        pages.forEach(page => {
+            page.classList.remove('active-content');
+            page.style.display = 'none';
+        });
+        
+        const targetPage = document.getElementById(pageId + '-page');
+        if (targetPage) {
+            targetPage.classList.add('active-content');
+            targetPage.style.display = 'block';
+        }
+        
+        // Додаємо плавну анімацію при перемиканні сторінок
+        targetPage.classList.add('animate-fade-in-up');
+        setTimeout(() => {
+            targetPage.classList.remove('animate-fade-in-up');
+        }, 800);
+    }
+    
+    // Ініціалізація - показуємо головну сторінку при завантаженні
+    document.addEventListener('DOMContentLoaded', function() {
+        showPage('home');
+    });
+</script>
