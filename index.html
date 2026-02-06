@@ -12,7 +12,18 @@
         .glass-card { background: white; border: 1px solid #e2e8f0; }
         .custom-scrollbar::-webkit-scrollbar { height: 4px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        select { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e"); background-position: right 0.5rem center; background-repeat: no-repeat; background-size: 1.5em 1.5em; padding-right: 2.5rem; -webkit-appearance: none; appearance: none; }
+        
+        /* Збільшена ширина для селектів, щоб текст поміщався */
+        .wide-select { 
+            min-width: 180px;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e"); 
+            background-position: right 0.75rem center; 
+            background-repeat: no-repeat; 
+            background-size: 1.5em 1.5em; 
+            padding-right: 2.5rem; 
+            -webkit-appearance: none; 
+            appearance: none; 
+        }
         
         /* Стилі для іконок сортування */
         .sort-icon::after { content: '↕'; margin-left: 8px; opacity: 0.3; font-size: 0.8em; }
@@ -49,10 +60,11 @@
 
         <!-- Main Trend Chart -->
         <div class="glass-card rounded-3xl p-6 mb-10 shadow-sm">
-            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 gap-4">
-                <div class="flex items-center gap-4">
+            <div class="flex flex-col gap-6 mb-8">
+                <!-- Ряд 1: Заголовок та Фільтр періоду -->
+                <div class="flex items-center justify-between">
                     <h2 class="text-xl font-bold">Динаміка за категоріями</h2>
-                    <select id="trendMonthFilter" onchange="updateMainChart()" class="text-sm font-semibold border border-slate-200 rounded-lg px-3 py-1.5 bg-slate-50 focus:ring-2 focus:ring-blue-500 outline-none">
+                    <select id="trendMonthFilter" onchange="updateMainChart()" class="wide-select text-sm font-semibold border border-slate-200 rounded-lg px-4 py-2 bg-slate-50 focus:ring-2 focus:ring-blue-500 outline-none">
                         <option value="all">Весь період</option>
                         <option value="0">Вересень '25</option>
                         <option value="1">Жовтень '25</option>
@@ -61,9 +73,11 @@
                         <option value="4">Січень '26</option>
                     </select>
                 </div>
-                <div class="flex flex-wrap gap-2 custom-scrollbar overflow-x-auto pb-2 max-w-full">
-                    <button onclick="selectCategory('all')" id="btn-all" class="category-btn px-4 py-1.5 rounded-full text-xs font-bold uppercase bg-slate-900 text-white transition-all">Всього</button>
-                    <div id="categoryButtonContainer" class="flex gap-2"></div>
+                
+                <!-- Ряд 2: Кнопки категорій (всі в одному блоці для сітки) -->
+                <div id="categoryButtonContainer" class="flex flex-wrap gap-2">
+                    <button onclick="selectCategory('all')" id="btn-all" class="category-btn px-4 py-2 rounded-xl text-xs font-bold uppercase bg-slate-900 text-white transition-all shadow-sm">Всього</button>
+                    <!-- Кнопки категорій додаються сюди через JS -->
                 </div>
             </div>
             <div class="h-[400px]">
@@ -77,7 +91,7 @@
                 <h2 class="text-xl font-bold">Розподіл часток</h2>
                 <div class="flex items-center gap-2">
                     <span class="text-sm text-slate-500">Період:</span>
-                    <select id="unifiedPieFilter" onchange="updatePieCharts()" class="text-sm font-semibold border border-slate-200 rounded-lg px-3 py-1.5 bg-white shadow-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                    <select id="unifiedPieFilter" onchange="updatePieCharts()" class="wide-select text-sm font-semibold border border-slate-200 rounded-lg px-4 py-2 bg-white shadow-sm focus:ring-2 focus:ring-blue-500 outline-none">
                         <option value="all">Весь період</option>
                         <option value="0">Вересень '25</option>
                         <option value="1">Жовтень '25</option>
@@ -105,7 +119,7 @@
             <div class="p-6 border-b border-slate-100 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div class="flex items-center gap-4">
                     <h2 class="text-xl font-bold">Таблиця даних</h2>
-                    <select id="tableMonthFilter" onchange="populateTable()" class="text-sm border border-slate-200 rounded-lg px-3 py-1 bg-slate-50">
+                    <select id="tableMonthFilter" onchange="populateTable()" class="wide-select text-sm border border-slate-200 rounded-lg px-4 py-2 bg-slate-50">
                         <option value="all">Весь період</option>
                         <option value="0">Вересень '25</option><option value="1">Жовтень '25</option><option value="2">Листопад '25</option><option value="3">Грудень '25</option><option value="4">Січень '26</option>
                     </select>
@@ -173,7 +187,7 @@
             rawData.forEach((item, idx) => {
                 const btn = document.createElement('button');
                 btn.id = `btn-${idx}`;
-                btn.className = "category-btn px-4 py-1.5 rounded-full text-xs font-bold uppercase bg-white text-slate-600 border border-slate-200 hover:border-slate-300 whitespace-nowrap";
+                btn.className = "category-btn px-4 py-2 rounded-xl text-xs font-bold uppercase bg-white text-slate-600 border border-slate-200 hover:border-slate-300 whitespace-nowrap shadow-sm transition-all";
                 btn.textContent = item.cat;
                 btn.onclick = () => selectCategory(idx);
                 container.appendChild(btn);
@@ -264,9 +278,9 @@
 
         function selectCategory(idx) {
             activeCategory = idx;
-            document.querySelectorAll('.category-btn').forEach(b => b.className = "category-btn px-4 py-1.5 rounded-full text-xs font-bold uppercase bg-white text-slate-600 border border-slate-200 whitespace-nowrap");
+            document.querySelectorAll('.category-btn').forEach(b => b.className = "category-btn px-4 py-2 rounded-xl text-xs font-bold uppercase bg-white text-slate-600 border border-slate-200 shadow-sm transition-all whitespace-nowrap");
             const btn = idx === 'all' ? document.getElementById('btn-all') : document.getElementById(`btn-${idx}`);
-            btn.className = "category-btn px-4 py-1.5 rounded-full text-xs font-bold uppercase bg-slate-900 text-white whitespace-nowrap";
+            btn.className = "category-btn px-4 py-2 rounded-xl text-xs font-bold uppercase bg-slate-900 text-white shadow-sm transition-all whitespace-nowrap";
             updateMainChart();
         }
 
@@ -382,19 +396,16 @@
             let rows = Array.from(table.rows).slice(1);
             let dir = el.classList.contains("sort-asc") ? "desc" : "asc";
             
-            // Очищення класів сортування з усіх заголовків
             headers.forEach(h => {
                 h.classList.remove("sort-asc", "sort-desc");
             });
             
-            // Додавання класу до поточного заголовка
             el.classList.add(dir === "asc" ? "sort-asc" : "sort-desc");
 
             rows.sort((a,b) => {
                 let x = a.cells[n].innerText.replace(/[₴,%\s]/g, '').replace(',', '.');
                 let y = b.cells[n].innerText.replace(/[₴,%\s]/g, '').replace(',', '.');
                 
-                // Якщо це не число (перший стовпець)
                 if (isNaN(x)) {
                     return dir === "asc" ? x.localeCompare(y) : y.localeCompare(x);
                 }
