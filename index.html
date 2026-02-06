@@ -7,36 +7,23 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        .category-btn {
-            transition: all 0.2s ease;
-        }
-        .category-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .stat-card {
-            transition: all 0.3s ease;
-        }
-        .stat-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-        }
+        .category-btn { transition: all 0.2s ease; }
+        .category-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+        .stat-card { transition: all 0.3s ease; }
+        .stat-card:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); }
     </style>
 </head>
 <body class="bg-gray-50">
     <div class="container mx-auto px-4 py-8 max-w-7xl">
-        <!-- Header -->
         <div class="mb-8">
             <h1 class="text-4xl font-bold text-slate-900 mb-2">Аналітичний Дашборд Продажів</h1>
             <p class="text-slate-600">Мережа магазинів Vape/Hookah | Вересень '25 - Січень '26</p>
         </div>
 
-        <!-- Summary Cards -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
             <div class="stat-card bg-white rounded-lg shadow p-6">
                 <div class="text-slate-600 text-sm font-medium mb-1">ЗАГАЛЬНИЙ ВИТОРГ</div>
                 <div class="text-3xl font-bold text-blue-600" id="totalRevenue">21,429,880 ₴</div>
-                <div class="text-green-600 text-sm mt-2" id="revenueChange"></div>
             </div>
             <div class="stat-card bg-white rounded-lg shadow p-6">
                 <div class="text-slate-600 text-sm font-medium mb-1">ЗАГАЛЬНИЙ ПРИБУТОК</div>
@@ -55,120 +42,85 @@
             </div>
         </div>
 
-        <!-- Category Filter Buttons -->
         <div class="mb-6">
             <div class="bg-white rounded-lg shadow p-4">
                 <div class="flex flex-wrap gap-2">
-                    <button onclick="selectCategory('all')" id="btn-all" class="category-btn px-4 py-2 rounded-lg font-bold text-xs uppercase bg-slate-900 text-white">
-                        ВСЬОГО
-                    </button>
-                    <button onclick="selectCategory(0)" id="btn-0" class="category-btn px-4 py-2 rounded-lg font-bold text-xs uppercase bg-slate-200 text-slate-700">
-                        ГОТОВІ РІДИНИ
-                    </button>
-                    <button onclick="selectCategory(1)" id="btn-1" class="category-btn px-4 py-2 rounded-lg font-bold text-xs uppercase bg-slate-200 text-slate-700">
-                        КАРТРИДЖІ
-                    </button>
-                    <button onclick="selectCategory(2)" id="btn-2" class="category-btn px-4 py-2 rounded-lg font-bold text-xs uppercase bg-slate-200 text-slate-700">
-                        КОМПОНЕНТИ
-                    </button>
-                    <button onclick="selectCategory(3)" id="btn-3" class="category-btn px-4 py-2 rounded-lg font-bold text-xs uppercase bg-slate-200 text-slate-700">
-                        ПОДИ
-                    </button>
-                    <button onclick="selectCategory(4)" id="btn-4" class="category-btn px-4 py-2 rounded-lg font-bold text-xs uppercase bg-slate-200 text-slate-700">
-                        ЧАЙНА СУМІШ
-                    </button>
-                    <button onclick="selectCategory(5)" id="btn-5" class="category-btn px-4 py-2 rounded-lg font-bold text-xs uppercase bg-slate-200 text-slate-700">
-                        ВИПАРНИКИ
-                    </button>
-                    <button onclick="selectCategory(6)" id="btn-6" class="category-btn px-4 py-2 rounded-lg font-bold text-xs uppercase bg-slate-200 text-slate-700">
-                        ОДНОРАЗКИ
-                    </button>
-                    <button onclick="selectCategory(7)" id="btn-7" class="category-btn px-4 py-2 rounded-lg font-bold text-xs uppercase bg-slate-200 text-slate-700">
-                        СНЮС
-                    </button>
-                    <button onclick="selectCategory(8)" id="btn-8" class="category-btn px-4 py-2 rounded-lg font-bold text-xs uppercase bg-slate-200 text-slate-700">
-                        CBD
-                    </button>
-                    <button onclick="selectCategory(9)" id="btn-9" class="category-btn px-4 py-2 rounded-lg font-bold text-xs uppercase bg-slate-200 text-slate-700">
-                        КАЛЬЯНИ
-                    </button>
+                    <button onclick="selectCategory('all')" id="btn-all" class="category-btn px-4 py-2 rounded-lg font-bold text-xs uppercase bg-slate-900 text-white">ВСЬОГО</button>
+                    <button onclick="selectCategory(0)" id="btn-0" class="category-btn px-4 py-2 rounded-lg font-bold text-xs uppercase bg-slate-200 text-slate-700">ГОТОВІ РІДИНИ</button>
+                    <button onclick="selectCategory(1)" id="btn-1" class="category-btn px-4 py-2 rounded-lg font-bold text-xs uppercase bg-slate-200 text-slate-700">КАРТРИДЖІ</button>
+                    <button onclick="selectCategory(2)" id="btn-2" class="category-btn px-4 py-2 rounded-lg font-bold text-xs uppercase bg-slate-200 text-slate-700">КОМПОНЕНТИ</button>
+                    <button onclick="selectCategory(3)" id="btn-3" class="category-btn px-4 py-2 rounded-lg font-bold text-xs uppercase bg-slate-200 text-slate-700">ПОДИ</button>
+                    <button onclick="selectCategory(4)" id="btn-4" class="category-btn px-4 py-2 rounded-lg font-bold text-xs uppercase bg-slate-200 text-slate-700">ЧАЙНА СУМІШ</button>
+                    <button onclick="selectCategory(5)" id="btn-5" class="category-btn px-4 py-2 rounded-lg font-bold text-xs uppercase bg-slate-200 text-slate-700">ВИПАРНИКИ</button>
+                    <button onclick="selectCategory(6)" id="btn-6" class="category-btn px-4 py-2 rounded-lg font-bold text-xs uppercase bg-slate-200 text-slate-700">ОДНОРАЗКИ</button>
+                    <button onclick="selectCategory(7)" id="btn-7" class="category-btn px-4 py-2 rounded-lg font-bold text-xs uppercase bg-slate-200 text-slate-700">СНЮС</button>
+                    <button onclick="selectCategory(8)" id="btn-8" class="category-btn px-4 py-2 rounded-lg font-bold text-xs uppercase bg-slate-200 text-slate-700">CBD</button>
+                    <button onclick="selectCategory(9)" id="btn-9" class="category-btn px-4 py-2 rounded-lg font-bold text-xs uppercase bg-slate-200 text-slate-700">КАЛЬЯНИ</button>
                 </div>
             </div>
         </div>
 
-        <!-- Main Chart -->
         <div class="bg-white rounded-lg shadow p-6 mb-8">
-            <h2 class="text-xl font-bold text-slate-900 mb-4">Динаміка Продажів та Частка у Загальному Виторзі</h2>
+            <h2 class="text-xl font-bold text-slate-900 mb-4">Динаміка Продажів та Частки у Мережі</h2>
             <div class="h-96">
                 <canvas id="mainChart"></canvas>
             </div>
         </div>
 
-        <!-- Pie Charts Row -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            <div class="bg-white rounded-lg shadow p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-bold text-slate-900">Розподіл Виторгу</h2>
-                    <select id="revenueMonthFilter" onchange="updatePieCharts()" class="px-3 py-1 border border-slate-300 rounded text-sm">
-                        <option value="all">Всі місяці</option>
-                        <option value="0">Вер '25</option>
-                        <option value="1">Жов '25</option>
-                        <option value="2">Лис '25</option>
-                        <option value="3">Гру '25</option>
-                        <option value="4">Січ '26</option>
+        <div class="mb-8">
+            <div class="bg-white rounded-t-lg shadow p-4 border-b flex justify-between items-center">
+                <h2 class="text-xl font-bold text-slate-900">Структура продажів та прибутку</h2>
+                <div class="flex items-center gap-3">
+                    <span class="text-sm font-medium text-slate-600">Період для діаграм:</span>
+                    <select id="globalPieFilter" onchange="updatePieCharts()" class="px-3 py-1 border border-slate-300 rounded text-sm bg-gray-50">
+                        <option value="all">Весь період</option>
+                        <option value="0">Вересень '25</option>
+                        <option value="1">Жовтень '25</option>
+                        <option value="2">Листопад '25</option>
+                        <option value="3">Грудень '25</option>
+                        <option value="4">Січень '26</option>
                     </select>
-                </div>
-                <div class="h-80">
-                    <canvas id="revenuePieChart"></canvas>
                 </div>
             </div>
-            <div class="bg-white rounded-lg shadow p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-bold text-slate-900">Розподіл Прибутку</h2>
-                    <select id="marginMonthFilter" onchange="updatePieCharts()" class="px-3 py-1 border border-slate-300 rounded text-sm">
-                        <option value="all">Всі місяці</option>
-                        <option value="0">Вер '25</option>
-                        <option value="1">Жов '25</option>
-                        <option value="2">Лис '25</option>
-                        <option value="3">Гру '25</option>
-                        <option value="4">Січ '26</option>
-                    </select>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-0">
+                <div class="bg-white shadow p-6 border-r">
+                    <h3 class="text-center text-slate-600 text-sm font-bold mb-4 uppercase">Розподіл Виторгу</h3>
+                    <div class="h-80"><canvas id="revenuePieChart"></canvas></div>
                 </div>
-                <div class="h-80">
-                    <canvas id="marginPieChart"></canvas>
+                <div class="bg-white shadow p-6">
+                    <h3 class="text-center text-slate-600 text-sm font-bold mb-4 uppercase">Розподіл Прибутку</h3>
+                    <div class="h-80"><canvas id="marginPieChart"></canvas></div>
                 </div>
             </div>
         </div>
 
-        <!-- Data Table -->
         <div class="bg-white rounded-lg shadow p-6">
-            <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-bold text-slate-900">Детальна Таблиця Категорій</h2>
-                <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Пошук по категорії..." class="px-4 py-2 border border-slate-300 rounded-lg text-sm">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                <h2 class="text-xl font-bold text-slate-900">Детальна Аналітика Категорій</h2>
+                <div class="flex flex-wrap gap-3 w-full md:w-auto">
+                    <select id="tableMonthFilter" onchange="populateTable()" class="px-4 py-2 border border-slate-300 rounded-lg text-sm">
+                        <option value="all">Всі місяці</option>
+                        <option value="0">Вересень '25</option>
+                        <option value="1">Жовтень '25</option>
+                        <option value="2">Листопад '25</option>
+                        <option value="3">Грудень '25</option>
+                        <option value="4">Січень '26</option>
+                    </select>
+                    <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Пошук категорії..." class="px-4 py-2 border border-slate-300 rounded-lg text-sm flex-grow">
+                </div>
             </div>
             <div class="overflow-x-auto">
                 <table id="dataTable" class="w-full">
                     <thead>
                         <tr class="bg-slate-100">
-                            <th class="px-4 py-3 text-left text-sm font-bold text-slate-700 cursor-pointer" onclick="sortTable(0)">
-                                Категорія ↕
-                            </th>
-                            <th class="px-4 py-3 text-right text-sm font-bold text-slate-700 cursor-pointer" onclick="sortTable(1)">
-                                Виторг, ₴ ↕
-                            </th>
-                            <th class="px-4 py-3 text-right text-sm font-bold text-slate-700 cursor-pointer" onclick="sortTable(2)">
-                                Прибуток, ₴ ↕
-                            </th>
-                            <th class="px-4 py-3 text-right text-sm font-bold text-slate-700 cursor-pointer" onclick="sortTable(3)">
-                                Маржа, % ↕
-                            </th>
-                            <th class="px-4 py-3 text-right text-sm font-bold text-slate-700 cursor-pointer" onclick="sortTable(4)">
-                                Частка виторгу, % ↕
-                            </th>
+                            <th class="px-4 py-3 text-left text-sm font-bold text-slate-700 cursor-pointer" onclick="sortTable(0)">Категорія ↕</th>
+                            <th class="px-4 py-3 text-right text-sm font-bold text-slate-700 cursor-pointer" onclick="sortTable(1)">Виторг, ₴ ↕</th>
+                            <th class="px-4 py-3 text-right text-sm font-bold text-slate-700 cursor-pointer" onclick="sortTable(2)">Прибуток, ₴ ↕</th>
+                            <th class="px-4 py-3 text-right text-sm font-bold text-slate-700 cursor-pointer" onclick="sortTable(3)">Маржа, % ↕</th>
+                            <th class="px-4 py-3 text-right text-sm font-bold text-slate-700 cursor-pointer" onclick="sortTable(4)">Частка виторгу, % ↕</th>
                         </tr>
                     </thead>
-                    <tbody id="tableBody">
-                    </tbody>
+                    <tbody id="tableBody"></tbody>
                 </table>
             </div>
         </div>
@@ -188,10 +140,7 @@
             { cat: 'Кальяни', revenue: 46848, margin: 17765, revH: [8789, 9897, 7724, 10531, 9964], marH: [3833, 3926, 3093, 4026, 2882] }
         ];
         const months = ["Вер '25", "Жов '25", "Лис '25", "Гру '25", "Січ '26"];
-
         let mainChart, revenuePieChart, marginPieChart;
-        let currentCategory = 'all';
-
         const totalRevenue = rawData.reduce((sum, item) => sum + item.revenue, 0);
         const totalMargin = rawData.reduce((sum, item) => sum + item.margin, 0);
 
@@ -211,302 +160,128 @@
 
         function initMainChart() {
             const ctx = document.getElementById('mainChart').getContext('2d');
-            
-            const revenueByMonth = months.map((_, i) => 
-                rawData.reduce((sum, item) => sum + item.revH[i], 0)
-            );
-            const marginByMonth = months.map((_, i) => 
-                rawData.reduce((sum, item) => sum + item.marH[i], 0)
-            );
-            const shareByMonth = revenueByMonth.map(rev => (rev / totalRevenue) * 100);
+            const revByM = months.map((_, i) => rawData.reduce((s, item) => s + item.revH[i], 0));
+            const marByM = months.map((_, i) => rawData.reduce((s, item) => s + item.marH[i], 0));
 
             mainChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: months,
                     datasets: [
-                        {
-                            label: 'Виторг, ₴',
-                            data: revenueByMonth,
-                            borderColor: '#2563eb',
-                            backgroundColor: 'rgba(37, 99, 235, 0.1)',
-                            tension: 0.4,
-                            fill: true,
-                            yAxisID: 'y'
-                        },
-                        {
-                            label: 'Прибуток, ₴',
-                            data: marginByMonth,
-                            borderColor: '#10b981',
-                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                            borderDash: [5, 5],
-                            tension: 0.4,
-                            fill: true,
-                            yAxisID: 'y'
-                        },
-                        {
-                            label: 'Частка у загальному виторзі, %',
-                            data: shareByMonth,
-                            borderColor: '#f59e0b',
-                            backgroundColor: 'rgba(245, 158, 11, 0)',
-                            tension: 0.4,
-                            borderWidth: 2,
-                            fill: false,
-                            yAxisID: 'y1'
-                        }
+                        { label: 'Виторг, ₴', data: revByM, borderColor: '#2563eb', backgroundColor: 'rgba(37, 99, 235, 0.1)', tension: 0.4, fill: true, yAxisID: 'y' },
+                        { label: 'Прибуток, ₴', data: marByM, borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.1)', tension: 0.4, fill: true, yAxisID: 'y' },
+                        { label: 'Частка у виторзі, %', data: [100, 100, 100, 100, 100], borderColor: '#f59e0b', tension: 0.4, yAxisID: 'y1' },
+                        { label: 'Частка у прибутку, %', data: [100, 100, 100, 100, 100], borderColor: '#8b5cf6', borderDash: [5, 5], tension: 0.4, yAxisID: 'y1' }
                     ]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    interaction: {
-                        mode: 'index',
-                        intersect: false,
-                    },
+                    responsive: true, maintainAspectRatio: false,
                     scales: {
-                        y: {
-                            type: 'linear',
-                            display: true,
-                            position: 'left',
-                            title: {
-                                display: true,
-                                text: 'Сума, ₴',
-                                font: { weight: 'bold' }
-                            },
-                            ticks: {
-                                callback: function(value) {
-                                    return formatNumber(value);
-                                }
-                            }
-                        },
-                        y1: {
-                            type: 'linear',
-                            display: true,
-                            position: 'right',
-                            title: {
-                                display: true,
-                                text: 'Частка, %',
-                                font: { weight: 'bold' }
-                            },
-                            grid: {
-                                drawOnChartArea: false,
-                            },
-                            ticks: {
-                                callback: function(value) {
-                                    return value.toFixed(1) + '%';
-                                }
-                            }
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            display: true,
-                            position: 'top'
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    let label = context.dataset.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    if (context.dataset.yAxisID === 'y1') {
-                                        label += context.parsed.y.toFixed(1) + '%';
-                                    } else {
-                                        label += formatNumber(context.parsed.y) + ' ₴';
-                                    }
-                                    return label;
-                                }
-                            }
-                        }
+                        y: { type: 'linear', position: 'left', ticks: { callback: v => formatNumber(v) } },
+                        y1: { type: 'linear', position: 'right', max: 100, min: 0, ticks: { callback: v => v + '%' } }
                     }
                 }
             });
         }
 
+        function selectCategory(catIdx) {
+            document.querySelectorAll('.category-btn').forEach(b => { b.classList.replace('bg-slate-900', 'bg-slate-200'); b.classList.replace('bg-blue-600', 'bg-slate-200'); b.classList.replace('text-white', 'text-slate-700'); });
+            const btn = catIdx === 'all' ? document.getElementById('btn-all') : document.getElementById(`btn-${catIdx}`);
+            btn.classList.replace('bg-slate-200', catIdx === 'all' ? 'bg-slate-900' : 'bg-blue-600');
+            btn.classList.replace('text-slate-700', 'text-white');
+
+            const revTotals = months.map((_, i) => rawData.reduce((s, item) => s + item.revH[i], 0));
+            const marTotals = months.map((_, i) => rawData.reduce((s, item) => s + item.marH[i], 0));
+
+            if (catIdx === 'all') {
+                mainChart.data.datasets[0].data = revTotals;
+                mainChart.data.datasets[1].data = marTotals;
+                mainChart.data.datasets[2].data = [100, 100, 100, 100, 100];
+                mainChart.data.datasets[3].data = [100, 100, 100, 100, 100];
+            } else {
+                const d = rawData[catIdx];
+                mainChart.data.datasets[0].data = d.revH;
+                mainChart.data.datasets[1].data = d.marH;
+                mainChart.data.datasets[2].data = d.revH.map((v, i) => (v / revTotals[i] * 100).toFixed(1));
+                mainChart.data.datasets[3].data = d.marH.map((v, i) => (v / marTotals[i] * 100).toFixed(1));
+            }
+            mainChart.update();
+        }
+
         function initPieCharts() {
-            const colors = [
-                '#2563eb', '#10b981', '#f59e0b', '#8b5cf6', 
-                '#ec4899', '#14b8a6', '#f97316', '#6366f1',
-                '#84cc16', '#06b6d4'
-            ];
-
-            const ctxRev = document.getElementById('revenuePieChart').getContext('2d');
-            revenuePieChart = new Chart(ctxRev, {
-                type: 'pie',
-                data: {
-                    labels: rawData.map(item => item.cat),
-                    datasets: [{
-                        data: rawData.map(item => item.revenue),
-                        backgroundColor: colors
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'right' },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    const value = context.parsed;
-                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                    const percentage = ((value / total) * 100).toFixed(1);
-                                    return context.label + ': ' + formatNumber(value) + ' ₴ (' + percentage + '%)';
-                                }
-                            }
-                        }
-                    }
-                }
+            const colors = ['#2563eb', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899', '#14b8a6', '#f97316', '#6366f1', '#84cc16', '#06b6d4'];
+            const commonOptions = { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right' } } };
+            
+            revenuePieChart = new Chart(document.getElementById('revenuePieChart'), {
+                type: 'pie', data: { labels: rawData.map(i => i.cat), datasets: [{ data: rawData.map(i => i.revenue), backgroundColor: colors }] }, options: commonOptions
             });
-
-            const ctxMar = document.getElementById('marginPieChart').getContext('2d');
-            marginPieChart = new Chart(ctxMar, {
-                type: 'pie',
-                data: {
-                    labels: rawData.map(item => item.cat),
-                    datasets: [{
-                        data: rawData.map(item => item.margin),
-                        backgroundColor: colors
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'right' },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    const value = context.parsed;
-                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                    const percentage = ((value / total) * 100).toFixed(1);
-                                    return context.label + ': ' + formatNumber(value) + ' ₴ (' + percentage + '%)';
-                                }
-                            }
-                        }
-                    }
-                }
+            marginPieChart = new Chart(document.getElementById('marginPieChart'), {
+                type: 'pie', data: { labels: rawData.map(i => i.cat), datasets: [{ data: rawData.map(i => i.margin), backgroundColor: colors }] }, options: commonOptions
             });
         }
 
         function updatePieCharts() {
-            const revMonthFilter = document.getElementById('revenueMonthFilter').value;
-            const marMonthFilter = document.getElementById('marginMonthFilter').value;
-
-            if (revMonthFilter === 'all') {
-                revenuePieChart.data.datasets[0].data = rawData.map(item => item.revenue);
+            const val = document.getElementById('globalPieFilter').value;
+            if (val === 'all') {
+                revenuePieChart.data.datasets[0].data = rawData.map(i => i.revenue);
+                marginPieChart.data.datasets[0].data = rawData.map(i => i.margin);
             } else {
-                const monthIdx = parseInt(revMonthFilter);
-                revenuePieChart.data.datasets[0].data = rawData.map(item => item.revH[monthIdx]);
+                const i = parseInt(val);
+                revenuePieChart.data.datasets[0].data = rawData.map(item => item.revH[i]);
+                marginPieChart.data.datasets[0].data = rawData.map(item => item.marH[i]);
             }
             revenuePieChart.update();
-
-            if (marMonthFilter === 'all') {
-                marginPieChart.data.datasets[0].data = rawData.map(item => item.margin);
-            } else {
-                const monthIdx = parseInt(marMonthFilter);
-                marginPieChart.data.datasets[0].data = rawData.map(item => item.marH[monthIdx]);
-            }
             marginPieChart.update();
         }
 
-        function selectCategory(category) {
-            currentCategory = category;
-            
-            document.querySelectorAll('.category-btn').forEach(btn => {
-                btn.classList.remove('bg-slate-900', 'bg-blue-600', 'text-white');
-                btn.classList.add('bg-slate-200', 'text-slate-700');
-            });
-
-            if (category === 'all') {
-                document.getElementById('btn-all').classList.remove('bg-slate-200', 'text-slate-700');
-                document.getElementById('btn-all').classList.add('bg-slate-900', 'text-white');
-                
-                const revenueByMonth = months.map((_, i) => 
-                    rawData.reduce((sum, item) => sum + item.revH[i], 0)
-                );
-                const marginByMonth = months.map((_, i) => 
-                    rawData.reduce((sum, item) => sum + item.marH[i], 0)
-                );
-                const shareByMonth = revenueByMonth.map(rev => (rev / totalRevenue) * 100);
-
-                mainChart.data.datasets[0].data = revenueByMonth;
-                mainChart.data.datasets[1].data = marginByMonth;
-                mainChart.data.datasets[2].data = shareByMonth;
-            } else {
-                document.getElementById(`btn-${category}`).classList.remove('bg-slate-200', 'text-slate-700');
-                document.getElementById(`btn-${category}`).classList.add('bg-blue-600', 'text-white');
-                
-                const catData = rawData[category];
-                const shareByMonth = catData.revH.map(rev => (rev / totalRevenue) * 100);
-
-                mainChart.data.datasets[0].data = catData.revH;
-                mainChart.data.datasets[1].data = catData.marH;
-                mainChart.data.datasets[2].data = shareByMonth;
-            }
-            
-            mainChart.update();
-        }
-
         function populateTable() {
+            const filter = document.getElementById('tableMonthFilter').value;
             const tbody = document.getElementById('tableBody');
             tbody.innerHTML = '';
-            
-            rawData.forEach((item, index) => {
-                const marginPercent = ((item.margin / item.revenue) * 100).toFixed(1);
-                const revenueShare = ((item.revenue / totalRevenue) * 100).toFixed(1);
-                
+
+            let currentTotalRev = 0;
+            if (filter === 'all') {
+                currentTotalRev = totalRevenue;
+            } else {
+                const mIdx = parseInt(filter);
+                currentTotalRev = rawData.reduce((s, item) => s + item.revH[mIdx], 0);
+            }
+
+            rawData.forEach(item => {
+                const rev = filter === 'all' ? item.revenue : item.revH[parseInt(filter)];
+                const mar = filter === 'all' ? item.margin : item.marH[parseInt(filter)];
+                if (filter !== 'all' && rev === 0 && mar === 0) return;
+
                 const row = tbody.insertRow();
                 row.innerHTML = `
                     <td class="px-4 py-3 text-sm font-medium text-slate-900">${item.cat}</td>
-                    <td class="px-4 py-3 text-sm text-right text-slate-700">${formatNumber(item.revenue)}</td>
-                    <td class="px-4 py-3 text-sm text-right text-green-600 font-medium">${formatNumber(item.margin)}</td>
-                    <td class="px-4 py-3 text-sm text-right text-amber-600 font-bold">${marginPercent}%</td>
-                    <td class="px-4 py-3 text-sm text-right text-blue-600 font-medium">${revenueShare}%</td>
+                    <td class="px-4 py-3 text-sm text-right text-slate-700">${formatNumber(rev)}</td>
+                    <td class="px-4 py-3 text-sm text-right text-green-600 font-medium">${formatNumber(mar)}</td>
+                    <td class="px-4 py-3 text-sm text-right text-amber-600 font-bold">${rev > 0 ? (mar/rev*100).toFixed(1) : 0}%</td>
+                    <td class="px-4 py-3 text-sm text-right text-blue-600 font-medium">${(rev/currentTotalRev*100).toFixed(1)}%</td>
                 `;
-                row.classList.add('border-b', 'border-slate-100', 'hover:bg-slate-50', 'transition');
+                row.className = "border-b border-slate-100 hover:bg-slate-50 transition";
             });
         }
 
+        function formatNumber(n) { return new Intl.NumberFormat('uk-UA').format(Math.round(n)); }
         function filterTable() {
-            const input = document.getElementById('searchInput');
-            const filter = input.value.toLowerCase();
-            const table = document.getElementById('dataTable');
-            const rows = table.getElementsByTagName('tr');
-
-            for (let i = 1; i < rows.length; i++) {
-                const categoryCell = rows[i].getElementsByTagName('td')[0];
-                if (categoryCell) {
-                    const txtValue = categoryCell.textContent || categoryCell.innerText;
-                    rows[i].style.display = txtValue.toLowerCase().indexOf(filter) > -1 ? '' : 'none';
-                }
-            }
-        }
-
-        function sortTable(columnIndex) {
-            const table = document.getElementById('dataTable');
-            const tbody = table.querySelector('tbody');
-            const rows = Array.from(tbody.querySelectorAll('tr'));
-            
-            const isNumeric = columnIndex > 0;
-            
-            rows.sort((a, b) => {
-                const aText = a.cells[columnIndex].textContent.replace(/[₴,%\s]/g, '');
-                const bText = b.cells[columnIndex].textContent.replace(/[₴,%\s]/g, '');
-                
-                if (isNumeric) {
-                    return parseFloat(bText) - parseFloat(aText);
-                } else {
-                    return aText.localeCompare(bText, 'uk');
-                }
+            let q = document.getElementById('searchInput').value.toLowerCase();
+            Array.from(document.getElementById('tableBody').rows).forEach(r => {
+                r.style.display = r.cells[0].innerText.toLowerCase().includes(q) ? '' : 'none';
             });
-            
-            rows.forEach(row => tbody.appendChild(row));
         }
-
-        function formatNumber(num) {
-            return new Intl.NumberFormat('uk-UA').format(Math.round(num));
+        function sortTable(n) {
+            const table = document.getElementById("dataTable");
+            let rows = Array.from(table.rows).slice(1);
+            let dir = table.getAttribute("data-dir") === "asc" ? "desc" : "asc";
+            rows.sort((a, b) => {
+                let x = a.cells[n].innerText.replace(/[₴,%\s]/g, '');
+                let y = b.cells[n].innerText.replace(/[₴,%\s]/g, '');
+                return dir === "asc" ? (isNaN(x) ? x.localeCompare(y) : x - y) : (isNaN(x) ? y.localeCompare(x) : y - x);
+            });
+            table.setAttribute("data-dir", dir);
+            rows.forEach(r => table.tBodies[0].appendChild(r));
         }
 
         init();
