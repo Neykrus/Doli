@@ -13,6 +13,11 @@
         .custom-scrollbar::-webkit-scrollbar { height: 4px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         select { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e"); background-position: right 0.5rem center; background-repeat: no-repeat; background-size: 1.5em 1.5em; padding-right: 2.5rem; -webkit-appearance: none; appearance: none; }
+        
+        /* Стилі для іконок сортування */
+        .sort-icon::after { content: '↕'; margin-left: 8px; opacity: 0.3; font-size: 0.8em; }
+        .sort-asc::after { content: '↑'; opacity: 1; color: #2563eb; }
+        .sort-desc::after { content: '↓'; opacity: 1; color: #2563eb; }
     </style>
 </head>
 <body class="bg-[#f8fafc] text-slate-900 antialiased pb-12">
@@ -20,7 +25,6 @@
         <!-- Header -->
         <header class="mb-10">
             <h1 class="text-3xl font-extrabold text-slate-900">Аналітичний Дашборд</h1>
-            <p class="text-slate-500 mt-1">Мережа Vape/Hookah | Динаміка часток категорій</p>
         </header>
 
         <!-- KPI Cards -->
@@ -67,27 +71,32 @@
             </div>
         </div>
 
-        <!-- Pie Charts -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
-            <div class="glass-card rounded-3xl p-6 shadow-sm">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-slate-500 text-xs font-bold uppercase tracking-widest">Розподіл Виторгу</h3>
-                    <select id="revPieFilter" onchange="updatePieCharts()" class="text-xs border border-slate-200 rounded px-2 py-1 bg-slate-50">
+        <!-- Pie Charts Section -->
+        <div class="mb-10">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold">Розподіл часток</h2>
+                <div class="flex items-center gap-2">
+                    <span class="text-sm text-slate-500">Період:</span>
+                    <select id="unifiedPieFilter" onchange="updatePieCharts()" class="text-sm font-semibold border border-slate-200 rounded-lg px-3 py-1.5 bg-white shadow-sm focus:ring-2 focus:ring-blue-500 outline-none">
                         <option value="all">Весь період</option>
-                        <option value="0">Вер '25</option><option value="1">Жов '25</option><option value="2">Лис '25</option><option value="3">Гру '25</option><option value="4">Січ '26</option>
+                        <option value="0">Вересень '25</option>
+                        <option value="1">Жовтень '25</option>
+                        <option value="2">Листопад '25</option>
+                        <option value="3">Грудень '25</option>
+                        <option value="4">Січень '26</option>
                     </select>
                 </div>
-                <div class="h-80"><canvas id="revenuePieChart"></canvas></div>
             </div>
-            <div class="glass-card rounded-3xl p-6 shadow-sm">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-slate-500 text-xs font-bold uppercase tracking-widest">Розподіл Прибутку</h3>
-                    <select id="marPieFilter" onchange="updatePieCharts()" class="text-xs border border-slate-200 rounded px-2 py-1 bg-slate-50">
-                        <option value="all">Весь період</option>
-                        <option value="0">Вер '25</option><option value="1">Жов '25</option><option value="2">Лис '25</option><option value="3">Гру '25</option><option value="4">Січ '26</option>
-                    </select>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="glass-card rounded-3xl p-6 shadow-sm text-center">
+                    <h3 class="text-slate-500 text-xs font-bold uppercase tracking-widest mb-6 text-left">Виторг за категоріями</h3>
+                    <div class="h-80"><canvas id="revenuePieChart"></canvas></div>
                 </div>
-                <div class="h-80"><canvas id="marginPieChart"></canvas></div>
+                <div class="glass-card rounded-3xl p-6 shadow-sm text-center">
+                    <h3 class="text-slate-500 text-xs font-bold uppercase tracking-widest mb-6 text-left">Прибуток за категоріями</h3>
+                    <div class="h-80"><canvas id="marginPieChart"></canvas></div>
+                </div>
             </div>
         </div>
 
@@ -109,11 +118,11 @@
                 <table id="dataTable" class="w-full text-left">
                     <thead>
                         <tr class="bg-slate-50/50">
-                            <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase cursor-pointer" onclick="sortTable(0)">Категорія</th>
-                            <th class="px-6 py-4 text-right text-xs font-bold text-slate-500 uppercase cursor-pointer" onclick="sortTable(1)">Виторг</th>
-                            <th class="px-6 py-4 text-right text-xs font-bold text-slate-500 uppercase cursor-pointer" onclick="sortTable(2)">Прибуток</th>
-                            <th class="px-6 py-4 text-right text-xs font-bold text-slate-500 uppercase cursor-pointer" onclick="sortTable(3)">Маржа %</th>
-                            <th class="px-6 py-4 text-right text-xs font-bold text-slate-500 uppercase cursor-pointer" onclick="sortTable(4)">Частка %</th>
+                            <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase cursor-pointer sort-icon" onclick="sortTable(0, this)">Категорія</th>
+                            <th class="px-6 py-4 text-right text-xs font-bold text-slate-500 uppercase cursor-pointer sort-icon" onclick="sortTable(1, this)">Виторг</th>
+                            <th class="px-6 py-4 text-right text-xs font-bold text-slate-500 uppercase cursor-pointer sort-icon" onclick="sortTable(2, this)">Прибуток</th>
+                            <th class="px-6 py-4 text-right text-xs font-bold text-slate-500 uppercase cursor-pointer sort-icon" onclick="sortTable(3, this)">Доля у виторгу</th>
+                            <th class="px-6 py-4 text-right text-xs font-bold text-slate-500 uppercase cursor-pointer sort-icon" onclick="sortTable(4, this)">Доля у маржі</th>
                         </tr>
                     </thead>
                     <tbody id="tableBody" class="divide-y divide-slate-100"></tbody>
@@ -206,7 +215,6 @@
         }
 
         function updateMainChart() {
-            const timeFilter = document.getElementById('trendMonthFilter').value;
             const revTotals = months.map((_, i) => rawData.reduce((s, item) => s + item.revH[i], 0));
             const marTotals = months.map((_, i) => rawData.reduce((s, item) => s + item.marH[i], 0));
             
@@ -214,14 +222,21 @@
             if (activeCategory === 'all') {
                 datasets = [
                     { label: 'Виторг (загальний)', data: revTotals, borderColor: '#2563eb', backgroundColor: 'rgba(37, 99, 235, 0.1)', fill: true, tension: 0.4, yAxisID: 'y' },
-                    { label: 'Прибуток (загальний)', data: marTotals, borderColor: '#10b981', tension: 0.4, yAxisID: 'y' }
+                    { label: 'Прибуток (загальний)', data: marTotals, borderColor: '#10b981', tension: 0.4, yAxisID: 'y' },
+                    { 
+                        label: 'Сер. Маржа мережі %', 
+                        data: marTotals.map((m, i) => (m / revTotals[i] * 100).toFixed(1)), 
+                        borderColor: '#f59e0b', 
+                        borderDash: [5, 5], 
+                        tension: 0.4, 
+                        yAxisID: 'y1' 
+                    }
                 ];
             } else {
                 const d = rawData[activeCategory];
                 datasets = [
                     { label: `Виторг: ${d.cat}`, data: d.revH, borderColor: '#2563eb', tension: 0.4, yAxisID: 'y' },
                     { label: `Прибуток: ${d.cat}`, data: d.marH, borderColor: '#10b981', tension: 0.4, yAxisID: 'y' },
-                    // Нові лінії для часток
                     { 
                         label: `Доля у виторгу %`, 
                         data: d.revH.map((v, i) => (v / revTotals[i] * 100).toFixed(1)), 
@@ -256,17 +271,72 @@
         }
 
         function initPieCharts() {
-            const common = { responsive: true, maintainAspectRatio: false, cutout: '65%', plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } } } };
-            revenuePieChart = new Chart(document.getElementById('revenuePieChart'), { type: 'doughnut', data: { labels: rawData.map(i => i.cat), datasets: [{ data: rawData.map(i => i.revenue), backgroundColor: chartColors }] }, options: common });
-            marginPieChart = new Chart(document.getElementById('marginPieChart'), { type: 'doughnut', data: { labels: rawData.map(i => i.cat), datasets: [{ data: rawData.map(i => i.margin), backgroundColor: chartColors }] }, options: common });
+            const commonOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '65%',
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            boxWidth: 12,
+                            padding: 15,
+                            font: { size: 11 },
+                            generateLabels: (chart) => {
+                                const data = chart.data;
+                                if (data.labels.length && data.datasets.length) {
+                                    const total = data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                    return data.labels.map((label, i) => {
+                                        const value = data.datasets[0].data[i];
+                                        const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+                                        return {
+                                            text: `${label} (${percentage}%)`,
+                                            fillStyle: data.datasets[0].backgroundColor[i],
+                                            hidden: isNaN(data.datasets[0].data[i]) || chart.getDatasetMeta(0).data[i].hidden,
+                                            index: i
+                                        };
+                                    });
+                                }
+                                return [];
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const percentage = total > 0 ? ((context.parsed / total) * 100).toFixed(1) : 0;
+                                return `${context.label}: ${formatNumber(context.parsed)} ₴ (${percentage}%)`;
+                            }
+                        }
+                    }
+                }
+            };
+
+            revenuePieChart = new Chart(document.getElementById('revenuePieChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: rawData.map(i => i.cat),
+                    datasets: [{ data: rawData.map(i => i.revenue), backgroundColor: chartColors }]
+                },
+                options: commonOptions
+            });
+
+            marginPieChart = new Chart(document.getElementById('marginPieChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: rawData.map(i => i.cat),
+                    datasets: [{ data: rawData.map(i => i.margin), backgroundColor: chartColors }]
+                },
+                options: commonOptions
+            });
         }
 
         function updatePieCharts() {
-            const rF = document.getElementById('revPieFilter').value;
-            const mF = document.getElementById('marPieFilter').value;
+            const filter = document.getElementById('unifiedPieFilter').value;
             
-            revenuePieChart.data.datasets[0].data = rF === 'all' ? rawData.map(i => i.revenue) : rawData.map(i => i.revH[parseInt(rF)]);
-            marginPieChart.data.datasets[0].data = mF === 'all' ? rawData.map(i => i.margin) : rawData.map(i => i.marH[parseInt(mF)]);
+            revenuePieChart.data.datasets[0].data = filter === 'all' ? rawData.map(i => i.revenue) : rawData.map(i => i.revH[parseInt(filter)]);
+            marginPieChart.data.datasets[0].data = filter === 'all' ? rawData.map(i => i.margin) : rawData.map(i => i.marH[parseInt(filter)]);
             
             revenuePieChart.update();
             marginPieChart.update();
@@ -276,38 +346,62 @@
             const filter = document.getElementById('tableMonthFilter').value;
             const tbody = document.getElementById('tableBody');
             tbody.innerHTML = '';
-            let totalRev = (filter === 'all') ? rawData.reduce((s,i) => s + i.revenue, 0) : rawData.reduce((s,i) => s + i.revH[parseInt(filter)], 0);
+            
+            const totalRev = (filter === 'all') ? rawData.reduce((s,i) => s + i.revenue, 0) : rawData.reduce((s,i) => s + i.revH[parseInt(filter)], 0);
+            const totalMar = (filter === 'all') ? rawData.reduce((s,i) => s + i.margin, 0) : rawData.reduce((s,i) => s + i.marH[parseInt(filter)], 0);
 
             rawData.forEach(item => {
                 const rev = filter === 'all' ? item.revenue : item.revH[parseInt(filter)];
                 const mar = filter === 'all' ? item.margin : item.marH[parseInt(filter)];
                 if (filter !== 'all' && rev === 0) return;
+                
+                const revShare = totalRev > 0 ? (rev / totalRev * 100).toFixed(1) : 0;
+                const marShare = totalMar > 0 ? (mar / totalMar * 100).toFixed(1) : 0;
+
                 const row = tbody.insertRow();
                 row.innerHTML = `
                     <td class="px-6 py-4 text-sm font-semibold text-slate-700">${item.cat}</td>
                     <td class="px-6 py-4 text-sm text-right font-mono">${formatNumber(rev)} ₴</td>
                     <td class="px-6 py-4 text-sm text-right font-mono text-emerald-600">${formatNumber(mar)} ₴</td>
-                    <td class="px-6 py-4 text-right"><span class="px-2 py-1 rounded bg-slate-100 text-xs font-bold">${(rev>0?(mar/rev*100).toFixed(1):0)}%</span></td>
-                    <td class="px-6 py-4 text-right text-sm text-blue-600 font-bold">${(rev/totalRev*100).toFixed(1)}%</td>
+                    <td class="px-6 py-4 text-right text-sm text-blue-600 font-bold">${revShare}%</td>
+                    <td class="px-6 py-4 text-right text-sm text-amber-600 font-bold">${marShare}%</td>
                 `;
             });
         }
 
         function formatNumber(n) { return new Intl.NumberFormat('uk-UA').format(Math.round(n)); }
+        
         function filterTable() {
             let q = document.getElementById('searchInput').value.toLowerCase();
             Array.from(document.getElementById('tableBody').rows).forEach(r => r.style.display = r.cells[0].innerText.toLowerCase().includes(q) ? '' : 'none');
         }
-        function sortTable(n) {
+
+        function sortTable(n, el) {
             const table = document.getElementById("dataTable");
+            const headers = table.querySelectorAll('th');
             let rows = Array.from(table.rows).slice(1);
-            let dir = table.getAttribute("data-dir") === "asc" ? "desc" : "asc";
+            let dir = el.classList.contains("sort-asc") ? "desc" : "asc";
+            
+            // Очищення класів сортування з усіх заголовків
+            headers.forEach(h => {
+                h.classList.remove("sort-asc", "sort-desc");
+            });
+            
+            // Додавання класу до поточного заголовка
+            el.classList.add(dir === "asc" ? "sort-asc" : "sort-desc");
+
             rows.sort((a,b) => {
                 let x = a.cells[n].innerText.replace(/[₴,%\s]/g, '').replace(',', '.');
                 let y = b.cells[n].innerText.replace(/[₴,%\s]/g, '').replace(',', '.');
-                return dir === "asc" ? (isNaN(x) ? x.localeCompare(y) : x - y) : (isNaN(x) ? y.localeCompare(x) : y - x);
+                
+                // Якщо це не число (перший стовпець)
+                if (isNaN(x)) {
+                    return dir === "asc" ? x.localeCompare(y) : y.localeCompare(x);
+                }
+                
+                return dir === "asc" ? parseFloat(x) - parseFloat(y) : parseFloat(y) - parseFloat(x);
             });
-            table.setAttribute("data-dir", dir);
+            
             rows.forEach(r => table.tBodies[0].appendChild(r));
         }
 
