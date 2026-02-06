@@ -12,12 +12,44 @@
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
         .chart-card { transition: transform 0.2s; }
         .chart-card:hover { transform: translateY(-5px); }
+        
+        /* Стилізація сортування */
+        .sortable { 
+            cursor: pointer; 
+            position: relative; 
+            transition: all 0.2s;
+            user-select: none;
+        }
+        .sortable:hover { background-color: #f1f5f9; color: #4f46e5; }
+        
+        /* Контрастні стрілочки */
+        .sort-icon::after { 
+            content: '↕'; 
+            margin-left: 8px; 
+            color: #64748b; /* Темніший колір для неактивних стрілок */
+            font-size: 1.2em;
+            display: inline-block;
+            transition: color 0.2s;
+        }
+        .sortable:hover .sort-icon::after { color: #334155; }
+        
+        .sort-asc .sort-icon::after { 
+            content: '↑'; 
+            color: #4f46e5; 
+            font-weight: 900;
+        }
+        .sort-desc .sort-icon::after { 
+            content: '↓'; 
+            color: #4f46e5; 
+            font-weight: 900;
+        }
+        
         @media print { .no-print { display: none; } }
     </style>
 </head>
 <body class="p-4 md:p-8">
 
-    <div id="report-content" class="max-w-6xl mx-auto">
+    <div id="report-content" class="max-w-7xl mx-auto">
         <!-- Header -->
         <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
             <div>
@@ -53,7 +85,7 @@
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 chart-card">
                 <h3 class="text-lg font-semibold mb-6 text-slate-700 flex items-center gap-2">
                     <span class="w-2 h-6 bg-indigo-500 rounded-full"></span>
-                    Частка у валовому доході
+                    Частка у валовому доході (Вал)
                 </h3>
                 <div class="h-80">
                     <canvas id="valChart"></canvas>
@@ -76,13 +108,24 @@
                 <h3 class="text-lg font-semibold text-slate-700">Показники ефективності категорій</h3>
             </div>
             <div class="overflow-x-auto">
-                <table class="w-full text-left">
+                <table class="w-full text-left" id="analyticsTable">
                     <thead>
-                        <tr class="bg-slate-50 text-slate-600 text-xs uppercase tracking-wider">
-                            <th class="px-6 py-4 font-bold">Категорія</th>
-                            <th class="px-6 py-4 font-bold text-right">Вал (₴)</th>
-                            <th class="px-6 py-4 font-bold text-right">Маржа (₴)</th>
-                            <th class="px-6 py-4 font-bold text-right">Доля Маржі</th>
+                        <tr class="bg-slate-50 text-slate-600 text-xs uppercase tracking-wider border-b border-slate-200">
+                            <th class="px-6 py-4 font-bold sortable" onclick="sortTable(0)">
+                                <span class="sort-icon">Категорія</span>
+                            </th>
+                            <th class="px-6 py-4 font-bold text-right sortable" onclick="sortTable(1)">
+                                <span class="sort-icon">Вал (₴)</span>
+                            </th>
+                            <th class="px-6 py-4 font-bold text-right sortable" onclick="sortTable(2)">
+                                <span class="sort-icon">Маржа (₴)</span>
+                            </th>
+                            <th class="px-6 py-4 font-bold text-right sortable border-l border-slate-200" onclick="sortTable(4)">
+                                <span class="sort-icon">Доля Валу</span>
+                            </th>
+                            <th class="px-6 py-4 font-bold text-right sortable" onclick="sortTable(3)">
+                                <span class="sort-icon">Доля Маржі</span>
+                            </th>
                         </tr>
                     </thead>
                     <tbody id="table-body" class="divide-y divide-slate-100 text-slate-700">
@@ -94,21 +137,24 @@
     </div>
 
     <script>
-        const data = [
-            { cat: 'Готові', val: 8984755, margin: 4235212, share: '45.87%' },
-            { cat: 'Картридж', val: 5014629, margin: 1940559, share: '21.02%' },
-            { cat: 'Компоненти', val: 4100968, margin: 1879133, share: '20.35%' },
-            { cat: 'Поди', val: 2376316, margin: 821681, share: '8.90%' },
-            { cat: 'Чайна суміш', val: 338863, margin: 88306, share: '0.96%' },
-            { cat: 'Випарник', val: 265875, margin: 111615, share: '1.21%' },
-            { cat: 'Одноразки', val: 178400, margin: 89932, share: '0.97%' },
-            { cat: 'CBD', val: 68531, margin: 19219, share: '0.21%' },
-            { cat: 'Снюс', val: 54695, margin: 15309, share: '0.17%' },
-            { cat: 'Кальян', val: 46905, margin: 17762, share: '0.19%' },
-            { cat: 'Переферія', val: 21000, margin: 4823, share: '0.05%' },
-            { cat: 'Бонг та комплектуючі', val: 8793, margin: 4227, share: '0.05%' },
-            { cat: 'Мерч', val: 7700, margin: 5462, share: '0.06%' }
+        // Data sources
+        let currentData = [
+            { cat: 'Готові', val: 8984755, margin: 4235212, valShare: '41.85%', marginShare: '45.87%' },
+            { cat: 'Картридж', val: 5014629, margin: 1940559, valShare: '23.36%', marginShare: '21.02%' },
+            { cat: 'Компоненти', val: 4100968, margin: 1879133, valShare: '19.10%', marginShare: '20.35%' },
+            { cat: 'Поди', val: 2376316, margin: 821681, valShare: '11.07%', marginShare: '8.90%' },
+            { cat: 'Чайна суміш', val: 338863, margin: 88306, valShare: '1.58%', marginShare: '0.96%' },
+            { cat: 'Випарник', val: 265875, margin: 111615, valShare: '1.24%', marginShare: '1.21%' },
+            { cat: 'Одноразки', val: 178400, margin: 89932, valShare: '0.83%', marginShare: '0.97%' },
+            { cat: 'CBD', val: 68531, margin: 19219, valShare: '0.32%', marginShare: '0.21%' },
+            { cat: 'Снюс', val: 54695, margin: 15309, valShare: '0.25%', marginShare: '0.17%' },
+            { cat: 'Кальян', val: 46905, margin: 17762, valShare: '0.22%', marginShare: '0.19%' },
+            { cat: 'Переферія', val: 21000, margin: 4823, valShare: '0.10%', marginShare: '0.05%' },
+            { cat: 'Бонг та комплектуючі', val: 8793, margin: 4227, valShare: '0.04%', marginShare: '0.05%' },
+            { cat: 'Мерч', val: 7700, margin: 5462, valShare: '0.04%', marginShare: '0.06%' }
         ];
+
+        let sortConfig = { index: null, direction: 'asc' };
 
         const colors = [
             '#6366f1', '#10b981', '#06b6d4', '#f59e0b', 
@@ -118,20 +164,62 @@
 
         const formatCur = (num) => new Intl.NumberFormat('uk-UA').format(Math.round(num)) + ' ₴';
 
-        const tbody = document.getElementById('table-body');
-        data.forEach(item => {
-            const row = `
-                <tr class="hover:bg-slate-50 transition-colors">
-                    <td class="px-6 py-4 font-medium">${item.cat}</td>
-                    <td class="px-6 py-4 text-right">${formatCur(item.val)}</td>
-                    <td class="px-6 py-4 text-right text-emerald-600 font-semibold">${formatCur(item.margin)}</td>
-                    <td class="px-6 py-4 text-right">
-                        <span class="bg-indigo-50 text-indigo-700 px-2 py-1 rounded text-[10px] font-bold tracking-tight border border-indigo-100">${item.share}</span>
-                    </td>
-                </tr>
-            `;
-            tbody.innerHTML += row;
-        });
+        function renderTable() {
+            const tbody = document.getElementById('table-body');
+            tbody.innerHTML = '';
+            currentData.forEach(item => {
+                const row = `
+                    <tr class="hover:bg-slate-50 transition-colors border-b border-slate-50">
+                        <td class="px-6 py-4 font-medium text-slate-900">${item.cat}</td>
+                        <td class="px-6 py-4 text-right tabular-nums">${formatCur(item.val)}</td>
+                        <td class="px-6 py-4 text-right text-emerald-600 font-semibold tabular-nums">${formatCur(item.margin)}</td>
+                        <td class="px-6 py-4 text-right border-l border-slate-50 bg-slate-50/30">
+                            <span class="bg-slate-200 text-slate-700 px-2.5 py-1 rounded-md text-[11px] font-bold border border-slate-300">${item.valShare}</span>
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <span class="bg-indigo-100 text-indigo-700 px-2.5 py-1 rounded-md text-[11px] font-bold border border-indigo-200">${item.marginShare}</span>
+                        </td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        }
+
+        function sortTable(columnIndex) {
+            const headers = document.querySelectorAll('.sortable');
+            
+            if (sortConfig.index === columnIndex) {
+                sortConfig.direction = sortConfig.direction === 'asc' ? 'desc' : 'asc';
+            } else {
+                sortConfig.index = columnIndex;
+                sortConfig.direction = 'asc';
+            }
+
+            headers.forEach((h) => {
+                h.classList.remove('sort-asc', 'sort-desc');
+                const headerIndex = parseInt(h.getAttribute('onclick').match(/\d+/)[0]);
+                if (headerIndex === columnIndex) {
+                    h.classList.add(sortConfig.direction === 'asc' ? 'sort-asc' : 'sort-desc');
+                }
+            });
+
+            currentData.sort((a, b) => {
+                let valA, valB;
+                switch(columnIndex) {
+                    case 0: valA = a.cat; valB = b.cat; break;
+                    case 1: valA = a.val; valB = b.val; break;
+                    case 2: valA = a.margin; valB = b.margin; break;
+                    case 3: valA = parseFloat(a.marginShare); valB = parseFloat(b.marginShare); break;
+                    case 4: valA = parseFloat(a.valShare); valB = parseFloat(b.valShare); break;
+                }
+
+                if (valA < valB) return sortConfig.direction === 'asc' ? -1 : 1;
+                if (valA > valB) return sortConfig.direction === 'asc' ? 1 : -1;
+                return 0;
+            });
+
+            renderTable();
+        }
 
         const getCommonOptions = (totalValue) => ({
             responsive: true,
@@ -144,20 +232,19 @@
                         boxWidth: 10,
                         padding: 15,
                         usePointStyle: true,
-                        font: { size: 10, weight: '500' }
+                        font: { size: 10, weight: '600' }
                     } 
                 },
                 tooltip: {
-                    backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                    titleColor: '#1e293b',
+                    backgroundColor: 'rgba(255, 255, 255, 0.98)',
+                    titleColor: '#0f172a',
                     titleFont: { weight: 'bold', size: 14 },
-                    bodyColor: '#475569',
+                    bodyColor: '#334155',
                     bodyFont: { size: 13 },
-                    borderColor: '#e2e8f0',
+                    borderColor: '#cbd5e1',
                     borderWidth: 1,
                     padding: 12,
-                    boxPadding: 8,
-                    displayColors: true,
+                    boxPadding: 10,
                     callbacks: {
                         label: function(context) {
                             const value = context.raw;
@@ -172,17 +259,17 @@
             }
         });
 
-        // Calculate Totals for percentages
-        const totalValSum = data.reduce((a, b) => a + b.val, 0);
-        const totalMarginSum = data.reduce((a, b) => a + b.margin, 0);
+        const totalValSum = currentData.reduce((a, b) => a + b.val, 0);
+        const totalMarginSum = currentData.reduce((a, b) => a + b.margin, 0);
 
-        // Initialize Charts
+        renderTable();
+
         new Chart(document.getElementById('valChart'), {
             type: 'doughnut',
             data: {
-                labels: data.map(d => d.cat),
+                labels: currentData.map(d => d.cat),
                 datasets: [{
-                    data: data.map(d => d.val),
+                    data: currentData.map(d => d.val),
                     backgroundColor: colors,
                     hoverOffset: 15,
                     borderWidth: 2,
@@ -195,9 +282,9 @@
         new Chart(document.getElementById('marginChart'), {
             type: 'doughnut',
             data: {
-                labels: data.map(d => d.cat),
+                labels: currentData.map(d => d.cat),
                 datasets: [{
-                    data: data.map(d => d.margin),
+                    data: currentData.map(d => d.margin),
                     backgroundColor: colors,
                     hoverOffset: 15,
                     borderWidth: 2,
