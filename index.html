@@ -61,20 +61,12 @@
         <!-- Main Trend Chart -->
         <div class="glass-card rounded-3xl p-6 mb-10 shadow-sm">
             <div class="flex flex-col gap-6 mb-8">
-                <!-- Ряд 1: Заголовок та Фільтр періоду -->
+                <!-- Ряд 1: Заголовок (фільтр видалено, бо графік показує всі періоди) -->
                 <div class="flex items-center justify-between">
                     <h2 class="text-xl font-bold">Динаміка за категоріями</h2>
-                    <select id="trendMonthFilter" onchange="updateMainChart()" class="wide-select text-sm font-semibold border border-slate-200 rounded-lg px-4 py-2 bg-slate-50 focus:ring-2 focus:ring-blue-500 outline-none">
-                        <option value="all">Весь період</option>
-                        <option value="0">Вересень '25</option>
-                        <option value="1">Жовтень '25</option>
-                        <option value="2">Листопад '25</option>
-                        <option value="3">Грудень '25</option>
-                        <option value="4">Січень '26</option>
-                    </select>
                 </div>
                 
-                <!-- Ряд 2: Кнопки категорій (всі в одному блоці для сітки) -->
+                <!-- Ряд 2: Кнопки категорій -->
                 <div id="categoryButtonContainer" class="flex flex-wrap gap-2">
                     <button onclick="selectCategory('all')" id="btn-all" class="category-btn px-4 py-2 rounded-xl text-xs font-bold uppercase bg-slate-900 text-white transition-all shadow-sm">Всього</button>
                     <!-- Кнопки категорій додаються сюди через JS -->
