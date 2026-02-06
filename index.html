@@ -3,80 +3,221 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Аналітика Долей - Dashboard</title>
+    <title>Аналіз долей категорій | Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; padding: 20px; }
-        .container { max-width: 1000px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        h1 { text-align: center; color: #333; }
-        .charts-wrapper { display: flex; flex-wrap: wrap; justify-content: space-around; margin-top: 30px; }
-        .chart-container { width: 45%; min-width: 300px; margin-bottom: 20px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { padding: 12px; border: 1px solid #ddd; text-align: left; }
-        th { background: #007bff; color: white; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .chart-card { transition: transform 0.2s; }
+        .chart-card:hover { transform: translateY(-5px); }
+        @media print { .no-print { display: none; } }
     </style>
 </head>
-<body>
+<body class="p-4 md:p-8">
 
-<div class="container">
-    <h1>📊 Аналіз часток ринку</h1>
-    
-    <div class="charts-wrapper">
-        <div class="chart-container">
-            <h3>Валовий дохід (Вал)</h3>
-            <canvas id="valChart"></canvas>
+    <div id="report-content" class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+            <div>
+                <h1 class="text-3xl font-bold text-slate-800">📊 Аналіз долей категорій</h1>
+                <p class="text-slate-500">Детальний розріз структури доходів та прибутку</p>
+            </div>
+            <button onclick="exportToPDF()" class="no-print bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-semibold flex items-center gap-2 shadow-lg transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z" clip-rule="evenodd" />
+                </svg>
+                Експорт у PDF
+            </button>
         </div>
-        <div class="chart-container">
-            <h3>Розподіл Маржі</h3>
-            <canvas id="marginChart"></canvas>
+
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                <p class="text-slate-500 text-sm font-medium uppercase tracking-wider">Загальний Вал</p>
+                <h2 class="text-2xl font-bold text-slate-800">21 468 850 ₴</h2>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                <p class="text-slate-500 text-sm font-medium uppercase tracking-wider">Загальна Маржа</p>
+                <h2 class="text-2xl font-bold text-emerald-600">9 233 237 ₴</h2>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                <p class="text-slate-500 text-sm font-medium uppercase tracking-wider">Середня маржинальність</p>
+                <h2 class="text-2xl font-bold text-indigo-600">43.01%</h2>
+            </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 chart-card">
+                <h3 class="text-lg font-semibold mb-6 text-slate-700 flex items-center gap-2">
+                    <span class="w-2 h-6 bg-indigo-500 rounded-full"></span>
+                    Частка у валовому доході
+                </h3>
+                <div class="h-80">
+                    <canvas id="valChart"></canvas>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 chart-card">
+                <h3 class="text-lg font-semibold mb-6 text-slate-700 flex items-center gap-2">
+                    <span class="w-2 h-6 bg-emerald-500 rounded-full"></span>
+                    Частка у маржі
+                </h3>
+                <div class="h-80">
+                    <canvas id="marginChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden mb-12">
+            <div class="p-6 border-b border-slate-100 bg-slate-50">
+                <h3 class="text-lg font-semibold text-slate-700">Показники ефективності категорій</h3>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="bg-slate-50 text-slate-600 text-xs uppercase tracking-wider">
+                            <th class="px-6 py-4 font-bold">Категорія</th>
+                            <th class="px-6 py-4 font-bold text-right">Вал (₴)</th>
+                            <th class="px-6 py-4 font-bold text-right">Маржа (₴)</th>
+                            <th class="px-6 py-4 font-bold text-right">Доля Маржі</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body" class="divide-y divide-slate-100 text-slate-700">
+                        <!-- JS injection -->
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
-    <h3>Детальні дані</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>Категорія</th>
-                <th>Частка Вал (%)</th>
-                <th>Частка Маржа (%)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td>Готові</td><td>41.85%</td><td>45.87%</td></tr>
-            <tr><td>Картридж</td><td>23.36%</td><td>21.02%</td></tr>
-            <tr><td>Компоненти</td><td>19.10%</td><td>20.35%</td></tr>
-            <tr><td>Поди</td><td>11.07%</td><td>8.90%</td></tr>
-        </tbody>
-    </table>
-</div>
+    <script>
+        const data = [
+            { cat: 'Готові', val: 8984755, margin: 4235212, share: '45.87%' },
+            { cat: 'Картридж', val: 5014629, margin: 1940559, share: '21.02%' },
+            { cat: 'Компоненти', val: 4100968, margin: 1879133, share: '20.35%' },
+            { cat: 'Поди', val: 2376316, margin: 821681, share: '8.90%' },
+            { cat: 'Чайна суміш', val: 338863, margin: 88306, share: '0.96%' },
+            { cat: 'Випарник', val: 265875, margin: 111615, share: '1.21%' },
+            { cat: 'Одноразки', val: 178400, margin: 89932, share: '0.97%' },
+            { cat: 'CBD', val: 68531, margin: 19219, share: '0.21%' },
+            { cat: 'Снюс', val: 54695, margin: 15309, share: '0.17%' },
+            { cat: 'Кальян', val: 46905, margin: 17762, share: '0.19%' },
+            { cat: 'Переферія', val: 21000, margin: 4823, share: '0.05%' },
+            { cat: 'Бонг та комплектуючі', val: 8793, margin: 4227, share: '0.05%' },
+            { cat: 'Мерч', val: 7700, margin: 5462, share: '0.06%' }
+        ];
 
-<script>
-    const labels = ['Готові', 'Картридж', 'Компоненти', 'Поди', 'Інші'];
-    const colors = ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b'];
+        const colors = [
+            '#6366f1', '#10b981', '#06b6d4', '#f59e0b', 
+            '#ec4899', '#8b5cf6', '#f43f5e', '#14b8a6',
+            '#f97316', '#4f46e5', '#d946ef', '#a855f7', '#94a3b8'
+        ];
 
-    // Графік Валу
-    new Chart(document.getElementById('valChart'), {
-        type: 'doughnut',
-        data: {
-            labels: labels,
-            datasets: [{
-                data: [41.85, 23.36, 19.10, 11.07, 4.62],
-                backgroundColor: colors
-            }]
+        const formatCur = (num) => new Intl.NumberFormat('uk-UA').format(Math.round(num)) + ' ₴';
+
+        const tbody = document.getElementById('table-body');
+        data.forEach(item => {
+            const row = `
+                <tr class="hover:bg-slate-50 transition-colors">
+                    <td class="px-6 py-4 font-medium">${item.cat}</td>
+                    <td class="px-6 py-4 text-right">${formatCur(item.val)}</td>
+                    <td class="px-6 py-4 text-right text-emerald-600 font-semibold">${formatCur(item.margin)}</td>
+                    <td class="px-6 py-4 text-right">
+                        <span class="bg-indigo-50 text-indigo-700 px-2 py-1 rounded text-[10px] font-bold tracking-tight border border-indigo-100">${item.share}</span>
+                    </td>
+                </tr>
+            `;
+            tbody.innerHTML += row;
+        });
+
+        const getCommonOptions = (totalValue) => ({
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '65%',
+            plugins: {
+                legend: { 
+                    position: 'right', 
+                    labels: { 
+                        boxWidth: 10,
+                        padding: 15,
+                        usePointStyle: true,
+                        font: { size: 10, weight: '500' }
+                    } 
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                    titleColor: '#1e293b',
+                    titleFont: { weight: 'bold', size: 14 },
+                    bodyColor: '#475569',
+                    bodyFont: { size: 13 },
+                    borderColor: '#e2e8f0',
+                    borderWidth: 1,
+                    padding: 12,
+                    boxPadding: 8,
+                    displayColors: true,
+                    callbacks: {
+                        label: function(context) {
+                            const value = context.raw;
+                            const percentage = ((value / totalValue) * 100).toFixed(2) + '%';
+                            return [
+                                ` Сума: ${formatCur(value)}`,
+                                ` Частка: ${percentage}`
+                            ];
+                        }
+                    }
+                }
+            }
+        });
+
+        // Calculate Totals for percentages
+        const totalValSum = data.reduce((a, b) => a + b.val, 0);
+        const totalMarginSum = data.reduce((a, b) => a + b.margin, 0);
+
+        // Initialize Charts
+        new Chart(document.getElementById('valChart'), {
+            type: 'doughnut',
+            data: {
+                labels: data.map(d => d.cat),
+                datasets: [{
+                    data: data.map(d => d.val),
+                    backgroundColor: colors,
+                    hoverOffset: 15,
+                    borderWidth: 2,
+                    borderColor: '#ffffff'
+                }]
+            },
+            options: getCommonOptions(totalValSum)
+        });
+
+        new Chart(document.getElementById('marginChart'), {
+            type: 'doughnut',
+            data: {
+                labels: data.map(d => d.cat),
+                datasets: [{
+                    data: data.map(d => d.margin),
+                    backgroundColor: colors,
+                    hoverOffset: 15,
+                    borderWidth: 2,
+                    borderColor: '#ffffff'
+                }]
+            },
+            options: getCommonOptions(totalMarginSum)
+        });
+
+        function exportToPDF() {
+            const element = document.getElementById('report-content');
+            const opt = {
+                margin: [10, 10],
+                filename: 'Category_Analysis_Report.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
+            };
+            html2pdf().from(element).set(opt).save();
         }
-    });
-
-    // Графік Маржі
-    new Chart(document.getElementById('marginChart'), {
-        type: 'pie',
-        data: {
-            labels: labels,
-            datasets: [{
-                data: [45.87, 21.02, 20.35, 8.90, 3.86],
-                backgroundColor: colors
-            }]
-        }
-    });
-</script>
+    </script>
 </body>
 </html>
